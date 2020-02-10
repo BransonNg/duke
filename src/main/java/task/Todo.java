@@ -1,6 +1,7 @@
 package task;
-import parser.Parser;
+
 import exception.DukeException;
+import parser.Parser;
 
 public class Todo extends Task {
     public Todo(String description) throws DukeException {
