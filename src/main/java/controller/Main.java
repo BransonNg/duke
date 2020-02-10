@@ -13,6 +13,10 @@ public class Main extends Application {
 
     private Duke duke = new Duke();
 
+    
+    /** 
+     * @param stage
+     */
     @Override
     public void start(Stage stage) {
         try {

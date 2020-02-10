@@ -62,14 +62,10 @@ public class TaskList {
     }
 
     /**
-     * @param input raw string of new task
-     * @return Task returns created task
-     * @throws DukeException exceptions when creating task
+     * @param newTask new task object
      */
-    public Task addTask(String input) throws DukeException {
-        Task newTask = Task.newTask(input);
+    public void addTask(Task newTask) {
         this.tasks.add(newTask);
-        return newTask;
     }
 
     /** @param index index of task to set done */

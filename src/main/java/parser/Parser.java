@@ -25,7 +25,13 @@ public class Parser {
         "ddMMyyyy", "yyyyMMdd", "d-M-yyyy", "d/M/yyyy", "yyyy-M-d", "yyyy/M/d"
     };
 
-    public static Boolean isDoneDelete(String input) throws DukeException {
+    
+    /** 
+     * @param input
+     * @return Boolean
+     * @throws DukeException
+     */
+    public static Boolean isDoneOrDelete(String input) throws DukeException {
         if (Pattern.matches(
                 "(^(done|delete)\\s+.*|(.*\\s+(done|delete)\\s+.*)|.*\\s+(done|delete)$)", input)) {
             if (!Pattern.matches("^(done|delete)\\s+.*", input)) {
@@ -118,6 +124,14 @@ public class Parser {
         return dateTime;
     }
 
+    
+    /** 
+     * @param description input without type
+     * @param regex1 regex for start of dateTime input
+     * @param regex2 regex for end of dateTime input
+     * @return String[] returns an array of size 2 with the dateTime Strings of start and end
+     * @throws DukeException When no time has been provided for either start/end
+     */
     public static String[] getStartEndDateTime(String description, String regex1, String regex2)
             throws DukeException {
         Matcher matcher = Pattern.compile(regex1).matcher(description);
@@ -183,5 +197,24 @@ public class Parser {
             }
         }
         throw new DukeException("Date is in wrong format");
+    }
+
+    
+    /** 
+     * @param rawInput userInput
+     * @return int integer value of index provided
+     */
+    public static int getTaskIndex(String rawInput) {
+        String[] splitInput = rawInput.split("\\s+");
+        return Integer.parseInt(splitInput[splitInput.length - 1]);
+    }
+
+    
+    /** 
+     * @param rawInput userInput
+     * @return String searchTerm is returned
+     */
+    public static String getSearchTerm(String rawInput) {
+        return rawInput.substring(5).trim();
     }
 }

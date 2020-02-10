@@ -11,7 +11,7 @@ import parser.Parser;
 import storage.Storage;
 import task.Task;
 
-// TODO remove all old parts of Duke and keep only parts that are required for JavaFx
+//TODO convert from LocalDate and LocalTime to LocalDateTime
 
 public class Duke extends Application {
     private UserInterface UI;
@@ -20,6 +20,10 @@ public class Duke extends Application {
 
     private static Storage storage = new Storage(Paths.get("storage", "file.txt"));
 
+    
+    /** 
+     * @param stage
+     */
     @Override
     public void start(Stage stage) {
         Label helloWorld = new Label("Hello World!"); // Creating a new Label control
@@ -34,6 +38,10 @@ public class Duke extends Application {
         this.taskList = new TaskList(Duke.storage.getTasksFromStorage());
     }
 
+    
+    /** 
+     * @param args
+     */
     public static void main(String[] args) {
         Duke bot = new Duke();
         bot.start();
@@ -76,13 +84,11 @@ public class Duke extends Application {
                 return "Bye see you again soon!";
             default:
                 // as long as done/delete inside
-                if (Parser.isDoneDelete(input)) {
+                if (Parser.isDoneOrDelete(input)) {
                     if (this.taskList.isEmpty()) {
                         throw new DukeException("Task list is empty!");
                     }
-                    // TODO shift to parser for getting taskIndex
-                    String[] splitInput = input.split("\\s+");
-                    int taskIndex = Integer.parseInt(splitInput[splitInput.length - 1]) - 1;
+                    int taskIndex = Parser.getTaskIndex(input) - 1;
                     if (taskIndex >= this.taskList.size()) {
                         throw new DukeException(
                                 String.format(
@@ -104,14 +110,13 @@ public class Duke extends Application {
                     if (this.taskList.isEmpty()) {
                         throw new DukeException("Task list is empty!");
                     }
-                    // TODO shift to parser for getting serachTerm
-                    String searchTerm = input.substring(5).trim();
+                    String searchTerm = Parser.getSearchTerm(input);
                     return taskList.search(searchTerm)
                             .stream()
                             .collect(Collectors.joining(String.format("%n")));
                 } else {
-                    // TODO create task here then addTask to this.taskList as a Task Object
-                    Task newTask = this.taskList.addTask(input);
+                    Task newTask = Task.newTask(input);
+                    this.taskList.addTask(newTask);
                     return String.format(
                             "Got it. I've added this task:%n%s%nNow you have %d %s in the list,",
                             newTask.toString(),
@@ -121,6 +126,11 @@ public class Duke extends Application {
         }
     }
 
+    
+    /** 
+     * @param input
+     * @return String
+     */
     public String getResponse(String input) {
         try {
             String output = dispatch(input);
@@ -131,6 +141,10 @@ public class Duke extends Application {
         }
     }
 
+    
+    /** 
+     * @return Boolean
+     */
     public Boolean getIsClosed() {
         return this.isClosed;
     }
