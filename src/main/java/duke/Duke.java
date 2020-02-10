@@ -69,7 +69,7 @@ public class Duke extends Application {
         switch (input) {
             case "list":
                 return this.taskList
-                        .getAllTaskString()
+                        .getAllTasksAsString()
                         .stream()
                         .collect(Collectors.joining(String.format("%n")));
             case "bye":

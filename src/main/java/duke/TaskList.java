@@ -21,7 +21,7 @@ public class TaskList {
     }
 
     /** @return ArrayList<String> returns an array of tasks in string format */
-    public ArrayList<String> getAllTaskString() {
+    public ArrayList<String> getAllTasksAsString() {
         ArrayList<String> taskString = new ArrayList<>();
         for (int i = 0; i < this.tasks.size(); i++) {
             taskString.add(String.format("%d.%s", i + 1, this.tasks.get(i)));

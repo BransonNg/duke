@@ -16,19 +16,19 @@ import task.Constant;
 //TODO add documentation on regex
 
 public class Parser {
-    private static String[] timeRegex = {
+    private static String[] timeRegexes = {
         "H:m", "Hmm", "H.m", "h.m a", "h.m a", "h:m a", "h:m a", "hmm a", "hmma", "h a", "ha", "H"
     };
 
-    private static String[] dateRegex = {
+    private static String[] dateRegexes = {
         "ddMMyyyy", "yyyyMMdd", "d-M-yyyy", "d/M/yyyy", "yyyy-M-d", "yyyy/M/d"
     };
 
     
     /**
      * @param input raw input
-     * @return Boolean returns true if input is a done/delete command
-     * @throws DukeException if user input matches a done/delete command but it not properly
+     * @return Boolean returns true if input is a done or delete command
+     * @throws DukeException if user input matches a done or delete command but it not properly
      *     formatted
      */
     public static Boolean isDoneOrDelete(String input) throws DukeException {
@@ -171,7 +171,7 @@ public class Parser {
                             "Missing time/date information %n please provide date then time separated by a space"));
         }
 
-        for (String pattern : Parser.timeRegex) {
+        for (String pattern : Parser.timeRegexes) {
             try {
                 return LocalTime.parse(time, DateTimeFormatter.ofPattern(pattern));
             } catch (DateTimeParseException err) {
@@ -189,7 +189,7 @@ public class Parser {
      */
     public static LocalDate getDate(String dateTime) throws DukeException {
         String date = dateTime.split(" ")[0].trim();
-        for (String pattern : Parser.dateRegex) {
+        for (String pattern : Parser.dateRegexes) {
             try {
                 return LocalDate.parse(date, DateTimeFormatter.ofPattern(pattern));
             } catch (DateTimeParseException err) {
