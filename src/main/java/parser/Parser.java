@@ -32,15 +32,17 @@ public class Parser {
      *     formatted
      */
     public static Boolean isDoneOrDelete(String input) throws DukeException {
+        
         if (Pattern.matches(
-                "(^(done|delete)\\s+.*|(.*\\s+(done|delete)\\s+.*)|.*\\s+(done|delete)$)", input)) {
-            if (!Pattern.matches("^(done|delete)\\s+.*", input)) {
+                "(^(done|delete)\\s+.*|(.*\\s+(done|delete)\\s+.*)|.*\\s+(done|delete)$)", input)) { // This case checks if done or delete exists as a word in the string
+                    
+            if (!Pattern.matches("^(done|delete)\\s+.*", input)) { // If done/delete is not at the front
                 throw new UIException("Action should be at the front");
             }
-            if (Pattern.matches("^(done|delete)\\s+\\d+\\D+$", input)) {
+            if (Pattern.matches("^(done|delete)\\s+\\d+\\D+$", input)) { // if done and delete contains a number but it isn't at the end
                 throw new UIException("Must end with a number and provide only one number!");
             }
-            if (!Pattern.matches("^(done|delete)\\s+\\d+$", input)) {
+            if (!Pattern.matches("^(done|delete)\\s+\\d+$", input)) { // if no number is provided
                 throw new UIException("A task number must be provided");
             }
             return true;
@@ -54,12 +56,12 @@ public class Parser {
      * @throws DukeException if user input matches a find command but it not properly formatted
      */
     public static Boolean isFind(String input) throws DukeException {
-        if (Pattern.matches("^(find\\s+.*)|(.*\\s+find\\s+.*)|(.*\\s+find$)", input)) {
-            if (!Pattern.matches("^find\\s+.*", input)) {
+        if (Pattern.matches("^(find\\s+.*)|(.*\\s+find\\s+.*)|(.*\\s+find$)", input)) { // if find is a word in the command
+            if (!Pattern.matches("^find\\s+.*", input)) { // if find is not at the front
                 throw new UIException("Action should be at the front");
             }
-            if (!Pattern.matches("^find\\s+.*", input)) {
-                throw new UIException("A task number must be provided");
+            if (!Pattern.matches("^find\\s+.*", input)) { // if find is present, but no search term is present
+                throw new UIException("Search term must be provided");
             }
             return true;
         }
@@ -76,10 +78,10 @@ public class Parser {
         String acceptedTypes = String.format("(%s)", String.join("|", Constant.taskTypes));
         if (Pattern.matches(
                 String.format(
-                        "^%s\\s+.*|.*\\s+%s$|.*\\s+%s\\s+.*",
-                        acceptedTypes, acceptedTypes, acceptedTypes),
+                        "^%s\\s+.*|.*\\s+%s$|.*\\s+%s\\s+.*",         // checks that a task exists as a word in the input
+                        acceptedTypes, acceptedTypes, acceptedTypes), // acceptedTypes is a String of all accepted task types
                 lowerCaseInput)) {
-            if (Pattern.matches(String.format("^%s\\s+.*", acceptedTypes), lowerCaseInput)) {
+            if (Pattern.matches(String.format("^%s\\s+.*", acceptedTypes), lowerCaseInput)) { // checks that task type is provided at the front
                 return input.split(" ")[0].toLowerCase();
             } else {
                 throw new UIException("Please start with event type");
