@@ -32,10 +32,10 @@ public class MainWindow extends AnchorPane {
 
     
     /** 
-     * @param d
+     * @param duke Instance of duke that will control interactions with user
      */
-    public void setDuke(Duke d) {
-        duke = d;
+    public void setDuke(Duke duke) {
+        this.duke = duke;
     }
 
     /**

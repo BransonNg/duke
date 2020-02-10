@@ -18,12 +18,9 @@ public class Duke extends Application {
     private TaskList taskList;
     private Boolean isClosed = false;
 
+    // storage path is set to root_folder/storage/file.txt
     private static Storage storage = new Storage(Paths.get("storage", "file.txt"));
 
-    
-    /** 
-     * @param stage
-     */
     @Override
     public void start(Stage stage) {
         Label helloWorld = new Label("Hello World!"); // Creating a new Label control
@@ -38,10 +35,6 @@ public class Duke extends Application {
         this.taskList = new TaskList(Duke.storage.getTasksFromStorage());
     }
 
-    
-    /** 
-     * @param args
-     */
     public static void main(String[] args) {
         Duke bot = new Duke();
         bot.start();
@@ -128,8 +121,8 @@ public class Duke extends Application {
 
     
     /** 
-     * @param input
-     * @return String
+     * @param input user input
+     * @return String duke's response to user input
      */
     public String getResponse(String input) {
         try {
@@ -143,7 +136,7 @@ public class Duke extends Application {
 
     
     /** 
-     * @return Boolean
+     * @return Boolean whether the user has closed the GUI
      */
     public Boolean getIsClosed() {
         return this.isClosed;

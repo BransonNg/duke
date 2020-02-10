@@ -15,7 +15,8 @@ public class Main extends Application {
 
     
     /** 
-     * @param stage
+     * To launch GUI for duke
+     * @param stage 
      */
     @Override
     public void start(Stage stage) {

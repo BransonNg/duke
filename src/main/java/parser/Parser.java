@@ -11,12 +11,6 @@ import java.util.regex.Pattern;
 import task.Constant;
 
 public class Parser {
-    /**
-     * @param input raw input
-     * @return Boolean returns true if input is a done/delete command
-     * @throws DukeException if user input matches a done/delete command but it not properly
-     *     formatted
-     */
     private static String[] timeRegex = {
         "H:m", "Hmm", "H.m", "h.m a", "h.m a", "h:m a", "h:m a", "hmm a", "hmma", "h a", "ha", "H"
     };
@@ -26,10 +20,11 @@ public class Parser {
     };
 
     
-    /** 
-     * @param input
-     * @return Boolean
-     * @throws DukeException
+    /**
+     * @param input raw input
+     * @return Boolean returns true if input is a done/delete command
+     * @throws DukeException if user input matches a done/delete command but it not properly
+     *     formatted
      */
     public static Boolean isDoneOrDelete(String input) throws DukeException {
         if (Pattern.matches(
