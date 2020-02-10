@@ -1,6 +1,8 @@
 package duke;
 
 import exception.DukeException;
+import exception.TaskListException;
+
 import java.nio.file.Paths;
 import java.util.stream.Collectors;
 import javafx.application.Application;
@@ -10,8 +12,6 @@ import javafx.stage.Stage;
 import parser.Parser;
 import storage.Storage;
 import task.Task;
-
-//TODO convert from LocalDate and LocalTime to LocalDateTime
 
 public class Duke extends Application {
     private UserInterface UI;
@@ -79,14 +79,16 @@ public class Duke extends Application {
                 // as long as done/delete inside
                 if (Parser.isDoneOrDelete(input)) {
                     if (this.taskList.isEmpty()) {
-                        throw new DukeException("Task list is empty!");
+                        throw new TaskListException();
+                        // throw new DukeException("Task list is empty!");
                     }
                     int taskIndex = Parser.getTaskIndex(input) - 1;
                     if (taskIndex >= this.taskList.size()) {
-                        throw new DukeException(
-                                String.format(
-                                        "Please choose an index that is between 1 and %d (inclusive)",
-                                        this.taskList.size()));
+                        throw new TaskListException(this.taskList.size());
+                        // throw new DukeException(
+                        //         String.format(
+                        //                 "Please choose an index that is between 1 and %d (inclusive)",
+                        //                 this.taskList.size()));
                     }
                     if (input.contains("done")) {
                         this.taskList.markDone(taskIndex);
@@ -101,7 +103,8 @@ public class Duke extends Application {
                     }
                 } else if (Parser.isFind(input)) {
                     if (this.taskList.isEmpty()) {
-                        throw new DukeException("Task list is empty!");
+                        throw new TaskListException();
+                        // throw new DukeException("Task list is empty!");
                     }
                     String searchTerm = Parser.getSearchTerm(input);
                     return taskList.search(searchTerm)

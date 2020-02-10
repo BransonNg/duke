@@ -1,6 +1,9 @@
 package parser;
 
+import exception.DateTimeException;
 import exception.DukeException;
+import exception.UIException;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -9,6 +12,8 @@ import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import task.Constant;
+
+//TODO add documentation on regex
 
 public class Parser {
     private static String[] timeRegex = {
@@ -30,13 +35,13 @@ public class Parser {
         if (Pattern.matches(
                 "(^(done|delete)\\s+.*|(.*\\s+(done|delete)\\s+.*)|.*\\s+(done|delete)$)", input)) {
             if (!Pattern.matches("^(done|delete)\\s+.*", input)) {
-                throw new DukeException("Action should be at the front");
+                throw new UIException("Action should be at the front");
             }
             if (Pattern.matches("^(done|delete)\\s+\\d+\\D+$", input)) {
-                throw new DukeException("Must end with a number and provide only one number!");
+                throw new UIException("Must end with a number and provide only one number!");
             }
             if (!Pattern.matches("^(done|delete)\\s+\\d+$", input)) {
-                throw new DukeException("A task number must be provided");
+                throw new UIException("A task number must be provided");
             }
             return true;
         }
@@ -51,10 +56,10 @@ public class Parser {
     public static Boolean isFind(String input) throws DukeException {
         if (Pattern.matches("^(find\\s+.*)|(.*\\s+find\\s+.*)|(.*\\s+find$)", input)) {
             if (!Pattern.matches("^find\\s+.*", input)) {
-                throw new DukeException("Action should be at the front");
+                throw new UIException("Action should be at the front");
             }
             if (!Pattern.matches("^find\\s+.*", input)) {
-                throw new DukeException("A task number must be provided");
+                throw new UIException("A task number must be provided");
             }
             return true;
         }
@@ -77,10 +82,10 @@ public class Parser {
             if (Pattern.matches(String.format("^%s\\s+.*", acceptedTypes), lowerCaseInput)) {
                 return input.split(" ")[0].toLowerCase();
             } else {
-                throw new DukeException("Please start with event type");
+                throw new UIException("Please start with event type");
             }
         }
-        throw new DukeException("No accepted types present");
+        throw new UIException("No accepted types present");
     }
 
     /**
@@ -97,7 +102,7 @@ public class Parser {
         }
         String content = description.substring(0, index).trim();
         if (content.length() > 0) return content;
-        throw new DukeException("Content cannot be empty!");
+        throw new UIException("Content cannot be empty!");
     }
 
     /**
@@ -110,11 +115,11 @@ public class Parser {
         Matcher matcher = Pattern.compile(regex).matcher(description);
         int index = matcher.find() ? matcher.start() : -1;
         if (index == -1) {
-            throw new DukeException(String.format("Please provide %s for this event type", regex));
+            throw new UIException(String.format("Please provide %s for this event type", regex));
         }
         String dateTime = description.substring(index + regex.length()).trim();
 
-        if (dateTime.length() == 0) throw new DukeException("Please provide a time");
+        if (dateTime.length() == 0) throw new UIException("Please provide a time");
 
         return dateTime;
     }
@@ -134,14 +139,14 @@ public class Parser {
         Matcher matcher2 = Pattern.compile(regex2).matcher(description);
         int index2 = matcher2.find() ? matcher2.start() : -1;
         if (index == -1 || index2 == -1) {
-            throw new DukeException(
+            throw new UIException(
                     String.format("Please provide %s and %s for this event type", regex1, regex2));
         }
         String dateTime = description.substring(index + regex1.length(), index2).trim();
         String dateTime2 = description.substring(index2 + regex2.length()).trim();
 
         if (dateTime.length() == 0 || dateTime2.length() == 0)
-            throw new DukeException("Please provide a time");
+            throw new UIException("Please provide a time");
         String returnResult[] = {dateTime, dateTime2};
         return returnResult;
     }
@@ -161,7 +166,7 @@ public class Parser {
                             .trim()
                             .toUpperCase();
         } catch (Exception e) {
-            throw new DukeException(
+            throw new UIException(
                     String.format(
                             "Missing time/date information %n please provide date then time separated by a space"));
         }
@@ -173,7 +178,7 @@ public class Parser {
                 continue;
             }
         }
-        throw new DukeException("Time is in wrong format");
+        throw new DateTimeException("Time is in wrong format");
     }
 
     /**
@@ -191,7 +196,7 @@ public class Parser {
                 continue;
             }
         }
-        throw new DukeException("Date is in wrong format");
+        throw new DateTimeException("Date is in wrong format");
     }
 
     

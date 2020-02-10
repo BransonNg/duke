@@ -1,7 +1,11 @@
 package exception;
 
 public class TaskListException extends DukeException {
-    public TaskListException(String acceptedFormat) {
-        super(String.format("Dear user, your list is empty and thus we cannot perform this operation", acceptedFormat));
+    public TaskListException() {
+        super(String.format("Dear user, it appears you've made a happy accident. Your list is empty!"));
+    }
+
+    public TaskListException(int index) {
+        super(String.format("Happy accident! Please choose an index that is between 1 and %d (inclusive)",index));
     }
 }
