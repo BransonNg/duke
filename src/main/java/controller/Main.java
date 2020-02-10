@@ -13,10 +13,10 @@ public class Main extends Application {
 
     private Duke duke = new Duke();
 
-    
-    /** 
+    /**
      * To launch GUI for duke
-     * @param stage 
+     *
+     * @param stage
      */
     @Override
     public void start(Stage stage) {

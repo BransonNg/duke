@@ -3,7 +3,6 @@ package parser;
 import exception.DateTimeException;
 import exception.DukeException;
 import exception.UIException;
-
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -12,8 +11,6 @@ import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import task.Constant;
-
-//TODO add documentation on regex
 
 public class Parser {
     private static String[] timeRegexes = {
@@ -24,7 +21,6 @@ public class Parser {
         "ddMMyyyy", "yyyyMMdd", "d-M-yyyy", "d/M/yyyy", "yyyy-M-d", "yyyy/M/d"
     };
 
-    
     /**
      * @param input raw input
      * @return Boolean returns true if input is a done or delete command
@@ -32,17 +28,19 @@ public class Parser {
      *     formatted
      */
     public static Boolean isDoneOrDelete(String input) throws DukeException {
-        
-        if (Pattern.matches(
-                "(^(done|delete)\\s+.*|(.*\\s+(done|delete)\\s+.*)|.*\\s+(done|delete)$)", input)) { // This case checks if done or delete exists as a word in the string
-                    
-            if (!Pattern.matches("^(done|delete)\\s+.*", input)) { // If done/delete is not at the front
+        String doneInInputRegex =
+                "(^(done|delete)\\s+.*|(.*\\s+(done|delete)\\s+.*)|.*\\s+(done|delete)$)";
+        String doneAtFrontRegex = "^(done|delete)\\s+.*";
+        String numberNotAtBackRegex = "^(done|delete)\\s+\\d+\\D+$";
+        String numberNotInInputRegex = "^(done|delete)\\s+\\d+$";
+        if (Pattern.matches(doneInInputRegex, input)) {
+            if (!Pattern.matches(doneAtFrontRegex, input)) {
                 throw new UIException("Action should be at the front");
             }
-            if (Pattern.matches("^(done|delete)\\s+\\d+\\D+$", input)) { // if done and delete contains a number but it isn't at the end
+            if (Pattern.matches(numberNotAtBackRegex, input)) {
                 throw new UIException("Must end with a number and provide only one number!");
             }
-            if (!Pattern.matches("^(done|delete)\\s+\\d+$", input)) { // if no number is provided
+            if (!Pattern.matches(numberNotInInputRegex, input)) {
                 throw new UIException("A task number must be provided");
             }
             return true;
@@ -56,11 +54,14 @@ public class Parser {
      * @throws DukeException if user input matches a find command but it not properly formatted
      */
     public static Boolean isFind(String input) throws DukeException {
-        if (Pattern.matches("^(find\\s+.*)|(.*\\s+find\\s+.*)|(.*\\s+find$)", input)) { // if find is a word in the command
-            if (!Pattern.matches("^find\\s+.*", input)) { // if find is not at the front
+        String findInInputRegex = "^(find\\s+.*)|(.*\\s+find\\s+.*)|(.*\\s+find$)";
+        String findAtFrontRegex = "^find\\s+.*";
+        String noSearchTermRegex = "^find\\s+.*";
+        if (Pattern.matches(findInInputRegex, input)) {
+            if (!Pattern.matches(findAtFrontRegex, input)) {
                 throw new UIException("Action should be at the front");
             }
-            if (!Pattern.matches("^find\\s+.*", input)) { // if find is present, but no search term is present
+            if (!Pattern.matches(noSearchTermRegex, input)) {
                 throw new UIException("Search term must be provided");
             }
             return true;
@@ -76,12 +77,11 @@ public class Parser {
     public static String getType(String input) throws DukeException {
         String lowerCaseInput = input.toLowerCase();
         String acceptedTypes = String.format("(%s)", String.join("|", Constant.taskTypes));
-        if (Pattern.matches(
-                String.format(
-                        "^%s\\s+.*|.*\\s+%s$|.*\\s+%s\\s+.*",         // checks that a task exists as a word in the input
-                        acceptedTypes, acceptedTypes, acceptedTypes), // acceptedTypes is a String of all accepted task types
-                lowerCaseInput)) {
-            if (Pattern.matches(String.format("^%s\\s+.*", acceptedTypes), lowerCaseInput)) { // checks that task type is provided at the front
+        String taskTypePresentRegex =
+                String.format("^%1$s\\s+.*|.*\\s+%1$s$|.*\\s+%1$s\\s+.*", acceptedTypes);
+        String taskTypeAtFrontRegex = String.format("^%s\\s+.*", acceptedTypes);
+        if (Pattern.matches(taskTypePresentRegex, lowerCaseInput)) {
+            if (Pattern.matches(taskTypeAtFrontRegex, lowerCaseInput)) {
                 return input.split(" ")[0].toLowerCase();
             } else {
                 throw new UIException("Please start with event type");
@@ -126,8 +126,7 @@ public class Parser {
         return dateTime;
     }
 
-    
-    /** 
+    /**
      * @param description input without type
      * @param regex1 regex for start of dateTime input
      * @param regex2 regex for end of dateTime input
@@ -201,8 +200,7 @@ public class Parser {
         throw new DateTimeException("Date is in wrong format");
     }
 
-    
-    /** 
+    /**
      * @param rawInput userInput
      * @return int integer value of index provided
      */
@@ -211,8 +209,7 @@ public class Parser {
         return Integer.parseInt(splitInput[splitInput.length - 1]);
     }
 
-    
-    /** 
+    /**
      * @param rawInput userInput
      * @return String searchTerm is returned
      */

@@ -60,9 +60,7 @@ public class TaskList {
         return this.tasks.remove(index);
     }
 
-    /**
-     * @param newTask new task object
-     */
+    /** @param newTask new task object */
     public void addTask(Task newTask) {
         this.tasks.add(newTask);
     }

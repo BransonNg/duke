@@ -55,7 +55,7 @@ public class Storage {
                     Task newTask = Task.newTaskFromMemory(entry);
                     tempTasks.add(newTask);
                 } catch (DukeException err) {
-                    System.out.println("File has been corrupted"); 
+                    System.out.println("File has been corrupted");
                     this.update(tempTasks);
                     return tempTasks;
                 }

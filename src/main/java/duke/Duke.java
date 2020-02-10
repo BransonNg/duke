@@ -2,7 +2,6 @@ package duke;
 
 import exception.DukeException;
 import exception.TaskListException;
-
 import java.nio.file.Paths;
 import java.util.stream.Collectors;
 import javafx.application.Application;
@@ -87,7 +86,8 @@ public class Duke extends Application {
                         throw new TaskListException(this.taskList.size());
                         // throw new DukeException(
                         //         String.format(
-                        //                 "Please choose an index that is between 1 and %d (inclusive)",
+                        //                 "Please choose an index that is between 1 and %d
+                        // (inclusive)",
                         //                 this.taskList.size()));
                     }
                     if (input.contains("done")) {
@@ -107,9 +107,10 @@ public class Duke extends Application {
                         // throw new DukeException("Task list is empty!");
                     }
                     String searchTerm = Parser.getSearchTerm(input);
-                    String searchResults = taskList.search(searchTerm)
-                            .stream()
-                            .collect(Collectors.joining(String.format("%n")));
+                    String searchResults =
+                            taskList.search(searchTerm)
+                                    .stream()
+                                    .collect(Collectors.joining(String.format("%n")));
                     if (searchResults.isEmpty()) {
                         return "No matching tasks!";
                     }
@@ -126,8 +127,7 @@ public class Duke extends Application {
         }
     }
 
-    
-    /** 
+    /**
      * @param input user input
      * @return String duke's response to user input
      */
@@ -141,10 +141,7 @@ public class Duke extends Application {
         }
     }
 
-    
-    /** 
-     * @return Boolean whether the user has closed the GUI
-     */
+    /** @return Boolean whether the user has closed the GUI */
     public Boolean getIsClosed() {
         return this.isClosed;
     }
