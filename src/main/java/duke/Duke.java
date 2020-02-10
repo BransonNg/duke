@@ -107,9 +107,13 @@ public class Duke extends Application {
                         // throw new DukeException("Task list is empty!");
                     }
                     String searchTerm = Parser.getSearchTerm(input);
-                    return taskList.search(searchTerm)
+                    String searchResults = taskList.search(searchTerm)
                             .stream()
                             .collect(Collectors.joining(String.format("%n")));
+                    if (searchResults.isEmpty()) {
+                        return "No matching tasks!";
+                    }
+                    return searchResults;
                 } else {
                     Task newTask = Task.newTask(input);
                     this.taskList.addTask(newTask);
