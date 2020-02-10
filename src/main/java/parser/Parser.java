@@ -102,6 +102,10 @@ public class Parser {
         if (index == -1 && description.trim().length() > 0) {
             return description.trim();
         }
+        if (description.trim().length() == 0 || index == -1) {
+            System.out.println(description);
+            throw new UIException("Content cannot be empty!");
+        }
         String content = description.substring(0, index).trim();
         if (content.length() > 0) return content;
         throw new UIException("Content cannot be empty!");

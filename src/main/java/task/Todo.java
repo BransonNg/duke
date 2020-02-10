@@ -1,8 +1,10 @@
 package task;
+import parser.Parser;
+import exception.DukeException;
 
 public class Todo extends Task {
-    public Todo(String description) {
-        super(Constant.TODO.getType(), description);
+    public Todo(String description) throws DukeException {
+        super(Constant.TODO.getType(), Parser.getContent(description));
     }
 
     public Todo(String[] fromMemory) {
