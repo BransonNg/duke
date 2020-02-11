@@ -183,7 +183,7 @@ public class Parser {
                 continue;
             }
         }
-        throw new DateTimeException("Time is in wrong format");
+        throw new DateTimeException("Time");
     }
 
     /**
@@ -201,7 +201,7 @@ public class Parser {
                 continue;
             }
         }
-        throw new DateTimeException("Date is in wrong format");
+        throw new DateTimeException("Date");
     }
 
     /**

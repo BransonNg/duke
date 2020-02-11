@@ -4,7 +4,7 @@ public class TaskListException extends DukeException {
     public TaskListException() {
         super(
                 String.format(
-                        "Dear user, it appears you've made a happy accident. Your list is empty!"));
+                        "it appears you've made a happy accident. Your list is empty!"));
     }
 
     public TaskListException(int index) {
